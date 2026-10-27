@@ -131,6 +131,19 @@
   .winner-banner .wb-name{font-family:'Fraunces',serif;font-size:20px;font-weight:500;color:var(--otg)}
   .winner-banner .wb-detail{font-size:13px;color:var(--gg);margin-top:3px}
 
+  .tcs-toggle{font-size:13px;color:var(--gg);cursor:pointer;text-decoration:underline;margin-top:12px;background:none;border:none;font-family:'DM Sans',sans-serif;transition:color .3s}
+  .tcs-toggle:hover{color:var(--ot)}
+  .tcs-content{display:none;width:100%;max-width:500px;max-height:300px;overflow-y:auto;margin-top:12px;padding:22px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);text-align:left}
+  .tcs-content.open{display:block;animation:fadeUp .3s ease}
+  .tcs-content h4{font-family:'Fraunces',serif;font-size:14px;font-weight:500;color:#fff;margin-bottom:10px}
+  .tcs-content h5{font-size:11px;font-weight:600;color:var(--ot);text-transform:uppercase;letter-spacing:1px;margin:14px 0 6px}
+  .tcs-content p{font-size:11px;color:var(--gg);line-height:1.7;margin-bottom:5px}
+  .tcs-content ul{font-size:11px;color:var(--gg);line-height:1.7;margin:0 0 5px 16px}
+  .tcs-content::-webkit-scrollbar{width:4px}
+  .tcs-content::-webkit-scrollbar-track{background:transparent}
+  .tcs-content::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:4px}
+  .admin-btn.reset{background:rgba(252,170,40,.15);color:var(--wy);border:1px solid rgba(252,170,40,.3);font-size:14px;padding:12px 28px}
+
   .confetti-piece{position:fixed;width:10px;height:10px;z-index:999;animation:confettiFall 3s ease-in forwards;pointer-events:none}
   @keyframes confettiFall{0%{opacity:1;transform:translateY(0) rotate(0deg)}100%{opacity:0;transform:translateY(100vh) rotate(720deg)}}
   @media(max-width:820px){.hero h1{font-size:36px}.chart-canvas{height:220px}.admin-stats{flex-direction:column}}
@@ -186,6 +199,7 @@
   <div id="adminTableWrap"></div>
   <div id="winnerArea"></div>
   <div class="admin-actions">
+    <button class="admin-btn reset" onclick="resetForNewEvent()">🔄 Reset for new event</button>
     <button class="admin-btn export" onclick="exportCSV()">Export CSV</button>
     <button class="admin-btn export" onclick="pickWinner()">Pick random winner</button>
     <button class="admin-btn clear" onclick="clearEntries()">Clear all entries</button>
@@ -421,6 +435,38 @@ function showResultsScreen(){
   html+='<div class="result-actions">'+
     '<button class="btn" onclick="resetGame()">Play again</button></div>';
 
+  html+='<button class="tcs-toggle" onclick="document.getElementById(\'tcsContent\').classList.toggle(\'open\')">View Terms &amp; Conditions</button>';
+  html+='<div class="tcs-content" id="tcsContent">';
+  html+='<h4>Ninety One Quality Portfolio Builder &mdash; Prize Draw Terms &amp; Conditions</h4>';
+  html+='<h5>Promoter</h5>';
+  html+='<p>1. The promoter is Ninety One UK Limited, 55 Gresham Street, London, EC2V 7QQ. Authorised and regulated by the Financial Conduct Authority.</p>';
+  html+='<h5>Eligibility</h5>';
+  html+='<p>2. Entry is open to attendees of the SJP Conference on 3 June 2026 who are aged 18 or over. No purchase is necessary to enter.</p>';
+  html+='<p>3. Employees of Ninety One group companies, and their immediate families are not eligible to enter.</p>';
+  html+='<h5>How to enter</h5>';
+  html+='<p>4. To enter the prize draw, participants must complete the Ninety One Quality Portfolio Builder at the Ninety One exhibition stand, beat the MSCI ACWI benchmark, and submit their name and mobile number via the on-screen entry form.</p>';
+  html+='<p>5. Entry is limited to one per person. Duplicate entries will be identified and removed. The promoter reserves the right to disqualify entries that it reasonably believes to be duplicate, fraudulent, or otherwise in breach of these terms.</p>';
+  html+='<p>6. The closing date for entries is 17:00 on 3 June 2026. Entries received after this time will not be included in the draw.</p>';
+  html+='<p>7. These terms and conditions are available for viewing at the Ninety One exhibition stand and can be provided in full by email on request to <a href="mailto:enquiries@ninetyone.com" style="color:var(--ot)">enquiries@ninetyone.com</a>. Participants are advised to read these terms before entering.</p>';
+  html+='<h5>The prize</h5>';
+  html+='<p>8. The prizes consist of select items, each produced by a company held in the Ninety One Quality portfolio:</p>';
+  html+='<ul><li>Google Nest Mini &mdash; via Alphabet</li><li>Sephora voucher (&pound;30) &mdash; via LVMH</li><li>Xbox gift voucher (&pound;30) &mdash; via Microsoft</li><li>NIVEA hamper &mdash; via Beiersdorf</li></ul>';
+  html+='<p>9. The total approximate retail value of each prize is no more than &pound;50 per gift. The prize is non-transferable and there is no cash alternative. The promoter reserves the right to substitute the prize for an alternative of equal or greater value if circumstances require.</p>';
+  html+='<h5>Winner selection and notification</h5>';
+  html+='<p>10. The winner will be selected at random from all eligible entries before the close of the event. The draw will take place on the day of the event (3 June 2026).</p>';
+  html+='<p>11. The winner will be contacted on 3 June 2026 to collect their prize. If the winner does not respond within 14 calendar days of notification, or if the prize is returned as undeliverable, the promoter reserves the right to select an alternative winner using the same random selection method.</p>';
+  html+='<h5>Data protection</h5>';
+  html+='<p>12. Personal data collected through the tool (name and mobile number) will be processed by Ninety One UK Limited solely for the purpose of administering this prize draw and contacting the winner, in accordance with the UK General Data Protection Regulation (UK GDPR) and the Data Protection Act 2018.</p>';
+  html+='<p>13. Data will not be added to any marketing distribution lists, used for any promotional purpose, or shared with any third party, unless required by law or regulation.</p>';
+  html+='<p>14. All personal data collected will be securely deleted within 30 calendar days of the draw taking place and the winner being confirmed.</p>';
+  html+='<p>15. Participants may request access to, correction of, or deletion of their personal data at any time by contacting the promoter at the address above or by emailing <a href="mailto:enquiries@ninetyone.com" style="color:var(--ot)">enquiries@ninetyone.com</a>.</p>';
+  html+='<h5>General</h5>';
+  html+='<p>16. The promoter reserves the right to amend, suspend, or cancel the draw at any time.</p>';
+  html+='<p>17. By submitting an entry, participants confirm that they have read, understood, and agree to be bound by these terms and conditions.</p>';
+  html+='<p>18. These terms and conditions are governed by English law, and any disputes will be subject to the exclusive jurisdiction of the courts of England and Wales.</p>';
+  html+='<p>19. These terms and conditions should be read in conjunction with the promoter&rsquo;s privacy policy, available at <a href="https://www.ninetyone.com" style="color:var(--ot)" target="_blank">www.ninetyone.com</a>.</p>';
+  html+='</div>';
+
   cont.innerHTML=html;
 }
 
@@ -482,6 +528,7 @@ function closeAdmin(){document.getElementById('adminPanel').classList.remove('ac
 function exportCSV(){var e=getEntries();if(!e.length)return;var c='First Name,Last Name,Mobile,Score,Timestamp,Synced\n';e.forEach(function(r){c+='"'+(r.firstName||r.name)+'","'+(r.lastName||'')+'","'+r.mobile+'","'+(r.score||'')+'","'+r.timestamp+'",'+(r.synced?'Yes':'No')+'\n'});var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([c],{type:'text/csv'}));a.download='portfolio-builder-entries.csv';a.click()}
 function pickWinner(){var e=getEntries();if(!e.length)return;var w=e[Math.floor(Math.random()*e.length)];document.getElementById('winnerArea').innerHTML='<div class="winner-banner"><div style="font-size:12px;color:var(--gg);margin-bottom:6px;text-transform:uppercase;letter-spacing:2px">Winner</div><div class="wb-name">'+esc(w.name)+'</div><div class="wb-detail">'+esc(w.mobile)+' \u2014 Score: '+(w.score||'\u2014')+'</div></div>'}
 function clearEntries(){if(confirm('Delete all '+getEntries().length+' entries?')){localStorage.removeItem('q91pb_entries');updateCounter();openAdmin()}}
+function resetForNewEvent(){if(confirm('This will export the current entries as CSV and then clear all data for a fresh start. Continue?')){exportCSV();setTimeout(function(){localStorage.removeItem('q91pb_entries');updateCounter();openAdmin()},500)}}
 function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML}
 function launchConfetti(){var c=['#009D80','#FBAA96','#FCAA28','#D83949','#591739','#E8E5CE'];for(var i=0;i<50;i++){var e=document.createElement('div');e.className='confetti-piece';e.style.left=Math.random()*100+'vw';e.style.top='-10px';e.style.background=c[Math.floor(Math.random()*c.length)];e.style.borderRadius=Math.random()>.5?'50%':'2px';e.style.width=(6+Math.random()*8)+'px';e.style.height=(6+Math.random()*8)+'px';e.style.animationDelay=(Math.random()*1.5)+'s';e.style.animationDuration=(2+Math.random()*2)+'s';document.body.appendChild(e);setTimeout(function(el){return function(){el.remove()}}(e),5000)}}
 
